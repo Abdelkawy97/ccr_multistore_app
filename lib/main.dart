@@ -1,3 +1,5 @@
+import 'package:ccr_multistore_app/views/customer_home.dart';
+import 'package:ccr_multistore_app/views/vendor_home.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ccr_multistore_app/helpers/themes.dart';
@@ -32,17 +34,7 @@ class _MyAppState extends State<MyApp> {
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Flutter Theme Demo"),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.brightness_4_rounded),
-              onPressed: () => currentTheme.toggleTheme(),
-            ),
-          ],
-        ),
-      ),
+      home: const VendorHomeView(),
     );
   }
 }
