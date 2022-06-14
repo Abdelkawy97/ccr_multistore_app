@@ -10,17 +10,12 @@ class ProductsHomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Home"),
         centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CartScreen(),
-            ),
-          );
-        },
-        child: const Icon(Icons.shopping_cart),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
     );
   }

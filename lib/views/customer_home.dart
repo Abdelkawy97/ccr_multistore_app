@@ -1,3 +1,4 @@
+import 'package:ccr_multistore_app/screens/cart.dart';
 import 'package:ccr_multistore_app/screens/categories.dart';
 import 'package:ccr_multistore_app/screens/products_home.dart';
 import 'package:ccr_multistore_app/screens/profile.dart';
@@ -17,7 +18,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
   final List<Widget> _tabs = const [
     ProductsHomeScreen(),
     CategoriesScreen(),
-    SearchScreen(),
+    CartScreen(),
     StoresScreen(),
     ProfileScreen(),
   ];
@@ -35,10 +36,9 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(Icons.category), label: "Categories"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart), label: "Cart"),
           BottomNavigationBarItem(icon: Icon(Icons.shop), label: "Stores"),
-          // BottomNavigationBarItem(
-          //     icon: Icon(Icons.shopping_cart), label: "Cart"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
         onTap: (index) {

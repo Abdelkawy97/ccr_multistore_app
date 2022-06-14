@@ -3,6 +3,7 @@ import 'package:ccr_multistore_app/screens/categories/accessories.dart';
 import 'package:ccr_multistore_app/screens/categories/body_components.dart';
 import 'package:ccr_multistore_app/screens/categories/electronics.dart';
 import 'package:ccr_multistore_app/screens/categories/interior.dart';
+import 'package:ccr_multistore_app/screens/search.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -26,11 +27,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CartScreen(),
+                    builder: (context) => SearchScreen(),
                   ),
                 );
               },
-              icon: const Icon(Icons.shopping_cart),
+              icon: const Icon(Icons.search),
             ),
           ],
           centerTitle: true,

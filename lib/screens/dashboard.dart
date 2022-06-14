@@ -1,9 +1,15 @@
+import 'package:ccr_multistore_app/dashboard_components/edit_business_profile.dart';
+import 'package:ccr_multistore_app/dashboard_components/manage_products.dart';
+import 'package:ccr_multistore_app/dashboard_components/my_store.dart';
+import 'package:ccr_multistore_app/dashboard_components/vendor_orders.dart';
+import 'package:ccr_multistore_app/dashboard_components/vendor_balance.dart';
+import 'package:ccr_multistore_app/dashboard_components/vendor_statistics.dart';
 import 'package:flutter/material.dart';
 
 List<String> _labels = [
   'My Store',
   'Orders',
-  'Edit Profile',
+  'Edit Business Profile',
   'Manage Products',
   'Balance',
   'Statistics',
@@ -16,6 +22,15 @@ List<IconData> _icons = [
   Icons.settings,
   Icons.attach_money,
   Icons.show_chart
+];
+
+List<Widget> _dashboardScreens = [
+  const MyStore(),
+  const VendorOrders(),
+  const EditBusinessProfile(),
+  const ManageProducts(),
+  const BalanceScreen(),
+  const VendorStatisticsScreen(),
 ];
 
 class DashboardScreen extends StatelessWidget {
@@ -42,7 +57,14 @@ class DashboardScreen extends StatelessWidget {
           crossAxisCount: 2,
           children: List.generate(6, (index) {
             return GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => _dashboardScreens[index],
+                  ),
+                );
+              },
               child: Card(
                 elevation: 5,
                 shadowColor: Colors.grey,

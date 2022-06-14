@@ -1,3 +1,5 @@
+import 'package:ccr_multistore_app/screens/products_home.dart';
+import 'package:ccr_multistore_app/views/customer_home.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {
@@ -31,7 +33,9 @@ class _CartScreenState extends State<CartScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.canPop(context)
+                    ? Navigator.pop(context)
+                    : Navigator.pushReplacementNamed(context, '/customer_home');
               },
               child: const Text(
                 "Tap to continue shopping",

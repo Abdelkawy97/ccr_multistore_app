@@ -1,3 +1,4 @@
+import 'package:ccr_multistore_app/screens/welcome_screen.dart';
 import 'package:ccr_multistore_app/views/customer_home.dart';
 import 'package:ccr_multistore_app/views/vendor_home.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,12 @@ class _MyAppState extends State<MyApp> {
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: const VendorHomeView(),
+      initialRoute: '/welcome_screen',
+      routes: {
+        '/welcome_screen': (context) => const WelcomeScreen(),
+        '/customer_home': (context) => const CustomerHomeView(),
+        '/vendor_home': (context) => const VendorHomeView(),
+      },
     );
   }
 }

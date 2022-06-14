@@ -67,6 +67,7 @@ flutter:
     - assets/images/body_components/
     - assets/images/electronics/
     - assets/images/interior/
+    - assets/images/welcome_screen/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

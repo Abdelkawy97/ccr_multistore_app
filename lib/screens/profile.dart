@@ -1,3 +1,5 @@
+import 'package:ccr_multistore_app/customer_screens/customer_orders.dart';
+import 'package:ccr_multistore_app/customer_screens/favorites_screen.dart';
 import 'package:ccr_multistore_app/screens/cart.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CartScreen(),
+                                  builder: (context) => const CartScreen(),
                                 ),
                               );
                             },
@@ -64,7 +66,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Container(
                           color: Colors.teal,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CustomerOrders(),
+                                ),
+                              );
+                            },
                             icon: const Icon(
                               Icons.list_alt,
                               color: Colors.white,
@@ -81,7 +90,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Container(
                           color: Colors.teal,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const FavoritesScreen(),
+                                ),
+                              );
+                            },
                             icon: const Icon(
                               Icons.favorite,
                               color: Colors.white,
@@ -118,11 +134,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Card(
                 child: Column(
-                  children: const [
-                    ListTile(
-                      title: Text("Email Address"),
-                      subtitle: Text("example@domain.com"),
-                      leading: Icon(Icons.email),
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: ListTile(
+                        title: Text("Email Address"),
+                        subtitle: Text("example@domain.com"),
+                        leading: Icon(Icons.email),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -130,10 +149,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         thickness: 0.5,
                       ),
                     ),
-                    ListTile(
-                      title: Text("Phone Number"),
-                      subtitle: Text("+20 123456789"),
-                      leading: Icon(Icons.phone),
+                    GestureDetector(
+                      onTap: () {},
+                      child: ListTile(
+                        title: Text("Phone Number"),
+                        subtitle: Text("+20 123456789"),
+                        leading: Icon(Icons.phone),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -141,10 +163,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         thickness: 0.5,
                       ),
                     ),
-                    ListTile(
-                      title: Text("Address"),
-                      subtitle: Text("Example 123 St. - Cairo"),
-                      leading: Icon(Icons.location_pin),
+                    GestureDetector(
+                      onTap: () {},
+                      child: ListTile(
+                        title: Text("Address"),
+                        subtitle: Text("Example 123 St. - Cairo"),
+                        leading: Icon(Icons.location_pin),
+                      ),
                     ),
                   ],
                 ),
@@ -173,10 +198,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Card(
                 child: Column(
-                  children: const [
-                    ListTile(
-                      title: Text("Edit Profile"),
-                      leading: Icon(Icons.edit),
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: ListTile(
+                        title: Text("Edit Profile"),
+                        leading: Icon(Icons.edit),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -184,9 +212,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         thickness: 1,
                       ),
                     ),
-                    ListTile(
-                      title: Text("Change Password"),
-                      leading: Icon(Icons.lock),
+                    GestureDetector(
+                      onTap: () {},
+                      child: ListTile(
+                        title: Text("Change Password"),
+                        leading: Icon(Icons.lock),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -194,9 +225,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         thickness: 1,
                       ),
                     ),
-                    ListTile(
-                      title: Text("Logout"),
-                      leading: Icon(Icons.logout),
+                    GestureDetector(
+                      onTap: () {},
+                      child: ListTile(
+                        title: Text("Logout"),
+                        leading: Icon(Icons.logout),
+                      ),
                     ),
                   ],
                 ),

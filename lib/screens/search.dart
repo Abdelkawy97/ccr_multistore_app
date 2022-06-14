@@ -12,13 +12,13 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          TextField(),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
+        title: const TextField(
+          decoration: InputDecoration(
+            suffixIcon: Icon(Icons.search),
+            hintText: "Search",
+            fillColor: Colors.white,
           ),
-        ],
+        ),
       ),
     );
   }

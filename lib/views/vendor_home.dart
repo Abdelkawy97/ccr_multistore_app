@@ -19,7 +19,6 @@ class _VendorHomeViewState extends State<VendorHomeView> {
   final List<Widget> _tabs = const [
     ProductsHomeScreen(),
     CategoriesScreen(),
-    SearchScreen(),
     StoresScreen(),
     DashboardScreen(),
     UploadScreen(),
@@ -38,7 +37,6 @@ class _VendorHomeViewState extends State<VendorHomeView> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(Icons.category), label: "Categories"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(icon: Icon(Icons.shop), label: "Stores"),
           BottomNavigationBarItem(
               icon: Icon(Icons.dashboard), label: "Dashboard"),
