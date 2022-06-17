@@ -55,34 +55,37 @@ class DashboardScreen extends StatelessWidget {
           mainAxisSpacing: 50,
           crossAxisSpacing: 50,
           crossAxisCount: 2,
-          children: List.generate(6, (index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => _dashboardScreens[index],
-                  ),
-                );
-              },
-              child: Card(
-                elevation: 5,
-                shadowColor: Colors.grey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      _icons[index],
-                      size: 50,
+          children: List.generate(
+            6,
+            (index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => _dashboardScreens[index],
                     ),
-                    Text(
-                      _labels[index],
-                    )
-                  ],
+                  );
+                },
+                child: Card(
+                  elevation: 5,
+                  // shadowColor: Colors.grey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        _icons[index],
+                        size: 50,
+                      ),
+                      Text(
+                        _labels[index],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            },
+          ),
         ),
       ),
     );

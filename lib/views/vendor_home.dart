@@ -1,8 +1,6 @@
 import 'package:ccr_multistore_app/screens/categories.dart';
 import 'package:ccr_multistore_app/screens/dashboard.dart';
 import 'package:ccr_multistore_app/screens/products_home.dart';
-import 'package:ccr_multistore_app/screens/profile.dart';
-import 'package:ccr_multistore_app/screens/search.dart';
 import 'package:ccr_multistore_app/screens/stores.dart';
 import 'package:ccr_multistore_app/screens/upload.dart';
 import 'package:flutter/material.dart';

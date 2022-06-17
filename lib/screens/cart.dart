@@ -1,5 +1,3 @@
-import 'package:ccr_multistore_app/screens/products_home.dart';
-import 'package:ccr_multistore_app/views/customer_home.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {

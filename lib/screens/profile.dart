@@ -18,7 +18,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            CircleAvatar(),
+            CircleAvatar(
+              backgroundColor: Colors.teal,
+              child: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text("Guest"),
@@ -137,13 +143,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {},
-                      child: ListTile(
+                      child: const ListTile(
                         title: Text("Email Address"),
                         subtitle: Text("example@domain.com"),
                         leading: Icon(Icons.email),
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Divider(
                         thickness: 0.5,
@@ -151,13 +157,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: ListTile(
+                      child: const ListTile(
                         title: Text("Phone Number"),
                         subtitle: Text("+20 123456789"),
                         leading: Icon(Icons.phone),
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Divider(
                         thickness: 0.5,
@@ -165,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: ListTile(
+                      child: const ListTile(
                         title: Text("Address"),
                         subtitle: Text("Example 123 St. - Cairo"),
                         leading: Icon(Icons.location_pin),
@@ -201,12 +207,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {},
-                      child: ListTile(
+                      child: const ListTile(
                         title: Text("Edit Profile"),
                         leading: Icon(Icons.edit),
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Divider(
                         thickness: 1,
@@ -214,12 +220,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: ListTile(
+                      child: const ListTile(
                         title: Text("Change Password"),
                         leading: Icon(Icons.lock),
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Divider(
                         thickness: 1,
@@ -227,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: ListTile(
+                      child: const ListTile(
                         title: Text("Logout"),
                         leading: Icon(Icons.logout),
                       ),

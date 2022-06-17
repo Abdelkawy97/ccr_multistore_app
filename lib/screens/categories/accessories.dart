@@ -25,11 +25,13 @@ class AccessoriesCategory extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SubCategoryProductsScreen(
-                            subCategoryName: _namesList[i],
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubCategoryProductsScreen(
+                    subCategoryName: _namesList[i],
+                  ),
+                ),
+              );
             },
             child: Padding(
               padding: const EdgeInsets.all(8),

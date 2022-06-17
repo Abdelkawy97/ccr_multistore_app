@@ -15,11 +15,13 @@ class CustomTheme with ChangeNotifier {
         colorSchemeSeed: Colors.teal,
         brightness: Brightness.light,
         fontFamily: 'Cairo',
+        useMaterial3: true,
       );
 
   static ThemeData get darkTheme => ThemeData(
         colorSchemeSeed: Colors.teal,
         brightness: Brightness.dark,
         fontFamily: 'Cairo',
+        useMaterial3: true,
       );
 }

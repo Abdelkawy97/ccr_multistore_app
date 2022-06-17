@@ -2,7 +2,6 @@ import 'package:ccr_multistore_app/screens/cart.dart';
 import 'package:ccr_multistore_app/screens/categories.dart';
 import 'package:ccr_multistore_app/screens/products_home.dart';
 import 'package:ccr_multistore_app/screens/profile.dart';
-import 'package:ccr_multistore_app/screens/search.dart';
 import 'package:ccr_multistore_app/screens/stores.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ class CustomerHomeView extends StatefulWidget {
 }
 
 class _CustomerHomeViewState extends State<CustomerHomeView> {
-  int _selectedIndex = 0;
+  static int selectedIndex = 0;
   final List<Widget> _tabs = const [
     ProductsHomeScreen(),
     CategoriesScreen(),
@@ -25,10 +24,10 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _tabs[_selectedIndex],
+      body: _tabs[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         selectedItemColor: Colors.teal,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.shifting,
@@ -43,7 +42,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
         ],
         onTap: (index) {
           setState(() {
-            _selectedIndex = index;
+            selectedIndex = index;
           });
         },
       ),

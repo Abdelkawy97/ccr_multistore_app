@@ -1,4 +1,3 @@
-import 'package:ccr_multistore_app/screens/cart.dart';
 import 'package:ccr_multistore_app/screens/categories/accessories.dart';
 import 'package:ccr_multistore_app/screens/categories/body_components.dart';
 import 'package:ccr_multistore_app/screens/categories/electronics.dart';
@@ -20,14 +19,18 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Categories"),
+          title: const Text(
+            "Categories",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
           actions: [
             IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SearchScreen(),
+                    builder: (context) => const SearchScreen(),
                   ),
                 );
               },
@@ -35,20 +38,29 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             ),
           ],
           centerTitle: true,
-          bottom: const TabBar(
+          bottom: TabBar(
             isScrollable: true,
-            tabs: [
+            indicatorColor: Theme.of(context).secondaryHeaderColor,
+            tabs: const [
               Tab(
-                child: Text("Accessories"),
+                child: Text(
+                  "Accessories",
+                ),
               ),
               Tab(
-                child: Text("Body Components"),
+                child: Text(
+                  "Body Components",
+                ),
               ),
               Tab(
-                child: Text("Electronics"),
+                child: Text(
+                  "Electronics",
+                ),
               ),
               Tab(
-                child: Text("Interior"),
+                child: Text(
+                  "Interior",
+                ),
               ),
             ],
           ),

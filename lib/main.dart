@@ -1,3 +1,5 @@
+import 'package:ccr_multistore_app/screens/customer_signup.dart';
+import 'package:ccr_multistore_app/screens/dummy.dart';
 import 'package:ccr_multistore_app/screens/welcome_screen.dart';
 import 'package:ccr_multistore_app/views/customer_home.dart';
 import 'package:ccr_multistore_app/views/vendor_home.dart';
@@ -5,7 +7,9 @@ import 'package:flutter/material.dart';
 
 import 'package:ccr_multistore_app/helpers/themes.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -21,9 +25,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     currentTheme.addListener(() {
-      setState(() {
-        // TO-DO
-      });
+      setState(() {});
     });
   }
 
@@ -31,11 +33,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Car Care & Repair",
-      themeMode: currentTheme.currentTheme,
+      // themeMode: ThemeMode.system,
+      themeMode: ThemeMode.system,
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/welcome_screen',
+      home: const CustomerSignUpScreen(),
+      // initialRoute: '/welcome_screen',
       routes: {
         '/welcome_screen': (context) => const WelcomeScreen(),
         '/customer_home': (context) => const CustomerHomeView(),

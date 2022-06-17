@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "116390799708",
+    "project_id": "car-care-and-repair-multistore",
+    "storage_bucket": "car-care-and-repair-multistore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116390799708:android:5b13061c28a692c5da3999",
+        "android_client_info": {
+          "package_name": "com.example.ccr_multistore_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116390799708-qqfmvdi923qvvodebjcbiqd0lo6ghhd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ccr_multistore_app",
+            "certificate_hash": "c4b077d69da38082709005587e5bd8eca88cd440"
+          }
+        },
+        {
+          "client_id": "116390799708-nigbbv3e4lk2pep82cv0mcsaa5r81fq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzhiLKBNpVUsL8QnZ4BIMQCFCHaLsq8DU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116390799708-nigbbv3e4lk2pep82cv0mcsaa5r81fq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

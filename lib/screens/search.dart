@@ -13,10 +13,16 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const TextField(
+          style: TextStyle(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
-            suffixIcon: Icon(Icons.search),
+            suffixIcon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            hintStyle: TextStyle(color: Colors.white),
             hintText: "Search",
-            fillColor: Colors.white,
           ),
         ),
       ),
