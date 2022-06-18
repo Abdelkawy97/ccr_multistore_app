@@ -8,6 +8,8 @@ import 'package:ccr_multistore_app/screens/customer_signup.dart';
 import 'package:ccr_multistore_app/screens/welcome_screen.dart';
 import 'package:ccr_multistore_app/views/customer_home.dart';
 import 'package:ccr_multistore_app/views/vendor_home.dart';
+import 'package:ccr_multistore_app/screens/vendor_signup.dart';
+import 'package:ccr_multistore_app/screens/vendor_login.dart';
 
 // Helper imports
 import 'package:ccr_multistore_app/helpers/themes.dart';
@@ -48,9 +50,11 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/welcome_screen': (context) => const WelcomeScreen(),
         '/customer_home': (context) => const CustomerHomeView(),
-        '/vendor_home': (context) => const VendorHomeView(),
         '/customer_signup': (context) => const CustomerSignUpScreen(),
         '/customer_login': (context) => const CustomerLoginScreen(),
+        '/vendor_home': (context) => const VendorHomeView(),
+        '/vendor_signup': (context) => const VendorSignUpScreen(),
+        '/vendor_login': (context) => const VendorLoginScreen(),
       },
     );
   }

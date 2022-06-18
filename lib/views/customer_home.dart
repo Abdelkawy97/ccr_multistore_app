@@ -23,6 +23,13 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
     ProfileScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
   ];
   @override
+  void initState() {
+    setState(() {
+      _selectedIndex = 0;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _tabs[_selectedIndex],

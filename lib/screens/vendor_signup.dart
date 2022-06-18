@@ -9,14 +9,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
 
-class CustomerSignUpScreen extends StatefulWidget {
-  const CustomerSignUpScreen({Key? key}) : super(key: key);
+class VendorSignUpScreen extends StatefulWidget {
+  const VendorSignUpScreen({Key? key}) : super(key: key);
 
   @override
-  State<CustomerSignUpScreen> createState() => _CustomerSignUpScreenState();
+  State<VendorSignUpScreen> createState() => _VendorSignUpScreenState();
 }
 
-class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
+class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
   // Firebase Instances
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -25,17 +25,17 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
   bool _isLoading = false;
 
   // Authentication Parameters & functions
-  late String firstName;
+  late String storeName;
   late String lastName;
   late String email;
   late String password;
   late String phoneNumber;
   late String address;
-  late String profileImageUrl;
+  late String storeImageUrl;
   late String _uid;
 
-  CollectionReference customers =
-      FirebaseFirestore.instance.collection('customers');
+  CollectionReference vendors =
+      FirebaseFirestore.instance.collection('vendors');
 
   void signUp() async {
     {
@@ -50,26 +50,25 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
               password: password,
             );
 
-            Reference ref = _firebaseStorage.ref('customer-images/$email.jpg');
+            Reference ref = _firebaseStorage.ref('vendor-images/$email.jpg');
             await ref.putFile(File(_imageFile!.path));
             _uid = _firebaseAuth.currentUser!.uid;
 
-            profileImageUrl = await ref.getDownloadURL();
-            await customers.doc(_firebaseAuth.currentUser!.uid).set({
-              'firstName': firstName,
-              'lastName': lastName,
+            storeImageUrl = await ref.getDownloadURL();
+            await vendors.doc(_firebaseAuth.currentUser!.uid).set({
+              'storeName': storeName,
               'email': email,
-              'profileImageUrl': profileImageUrl,
+              'profileImageUrl': storeImageUrl,
               'phoneNumber': phoneNumber,
               'address': address,
-              'cid': _uid,
+              'vid': _uid,
             });
 
             _formKey.currentState!.reset();
             setState(() {
               _imageFile = null;
             });
-            Navigator.pushReplacementNamed(context, '/customer_home');
+            Navigator.pushReplacementNamed(context, '/vendor_home');
           } on FirebaseAuthException catch (e) {
             if (e.code == 'email-already-in-use') {
               setState(() {
@@ -179,7 +178,7 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create an account"),
+        title: const Text("Create a business account"),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -211,77 +210,37 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                             ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Please enter first name";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              firstName = value;
-                            },
-                            controller: _firstNameController,
-                            keyboardType: TextInputType.name,
-                            maxLength: 15,
-                            decoration: InputDecoration(
-                              labelText: "First Name",
-                              suffixIcon: _firstNameController.text.isEmpty
-                                  ? Container(width: 0)
-                                  : IconButton(
-                                      onPressed: () =>
-                                          _firstNameController.clear(),
-                                      icon: const Icon(Icons.close),
-                                    ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter the store's name";
+                        } else {
+                          return null;
+                        }
+                      },
+                      onChanged: (value) {
+                        storeName = value;
+                      },
+                      controller: _firstNameController,
+                      keyboardType: TextInputType.name,
+                      maxLength: 15,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.store),
+                        labelText: "Store Name",
+                        suffixIcon: _firstNameController.text.isEmpty
+                            ? Container(width: 0)
+                            : IconButton(
+                                onPressed: () => _firstNameController.clear(),
+                                icon: const Icon(Icons.close),
                               ),
-                            ),
-                          ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Please enter your last name";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              lastName = value;
-                            },
-                            controller: _lastNameController,
-                            keyboardType: TextInputType.name,
-                            maxLength: 15,
-                            decoration: InputDecoration(
-                              labelText: "Last Name",
-                              suffixIcon: _lastNameController.text.isEmpty
-                                  ? Container(width: 0)
-                                  : IconButton(
-                                      onPressed: () =>
-                                          _lastNameController.clear(),
-                                      icon: const Icon(Icons.close),
-                                    ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -355,8 +314,6 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your phone number";
-                        } else if (value.length < 11) {
-                          return "Please enter a valid phone number";
                         } else {
                           return null;
                         }
@@ -389,6 +346,8 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your address";
+                        } else if (value.length < 11) {
+                          return "Please enter a valid phone number";
                         } else {
                           return null;
                         }
@@ -422,11 +381,11 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Already have an account?"),
+                      const Text("Already have a business account?"),
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/customer_login');
+                              context, '/vendor_login');
                         },
                         child: const Text(
                           "Sign In",

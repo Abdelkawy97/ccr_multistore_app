@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ccr_multistore_app/screens/customer_signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -10,6 +13,9 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  CollectionReference customers =
+      FirebaseFirestore.instance.collection('customers');
+  late String _uid;
   bool processing = false;
   @override
   Widget build(BuildContext context) {
@@ -64,13 +70,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/vendor_home');
+                                  Navigator.pushNamed(context, '/vendor_login');
                                 },
                                 child: const Text("Login"),
                               ),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, '/vendor_signup');
+                                },
                                 child: const Text("Sign Up"),
                               ),
                             ],
@@ -98,20 +106,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
+                                  Navigator.pushNamed(
                                       context, '/customer_login');
                                 },
                                 child: const Text("Login"),
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CustomerSignUpScreen(),
-                                    ),
-                                  );
+                                  Navigator.pushNamed(
+                                      context, '/customer_signup');
                                 },
                                 child: const Text("Sign Up"),
                               ),
@@ -129,7 +132,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         setState(() {
                           processing = true;
                         });
-                        await FirebaseAuth.instance.signInAnonymously();
+                        await FirebaseAuth.instance
+                            .signInAnonymously()
+                            .whenComplete(() async {
+                          _uid = FirebaseAuth.instance.currentUser!.uid;
+                          await customers.doc(_uid).set({
+                            'firstName': '',
+                            'lastName': '',
+                            'email': '',
+                            'profileImageUrl': '',
+                            'phoneNumber': '',
+                            'address': '',
+                            'cid': _uid,
+                          });
+                        });
+
                         Navigator.pushReplacementNamed(
                             context, '/customer_home');
                       },

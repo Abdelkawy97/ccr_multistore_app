@@ -18,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   CollectionReference customers =
       FirebaseFirestore.instance.collection('customers');
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<DocumentSnapshot>(
@@ -37,19 +38,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(data['profileImageUrl']),
-                  ),
-                  // CircleAvatar(
-                  //   backgroundColor: Colors.teal,
-                  //   child: Icon(
-                  //     Icons.person,
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
+                  data['profileImageUrl'] == ''
+                      ? const CircleAvatar(
+                          backgroundColor: Colors.teal,
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
+                        )
+                      : CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(data['profileImageUrl']),
+                        ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(data['firstName'] + " " + data['lastName']),
+                    child: data['firstName'] == '' && data['lastName'] == ''
+                        ? const Text("Guest")
+                        : Text(data['firstName'] + " " + data['lastName']),
                   )
                 ],
               ),
@@ -66,77 +71,89 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Column(
                           children: [
-                            ClipOval(
-                              child: Container(
-                                color: Colors.teal,
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CartScreen(),
+                            data['email'] == ''
+                                ? Container(width: 0)
+                                : ClipOval(
+                                    child: Container(
+                                      color: Colors.teal,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CartScreen(),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.shopping_cart,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.shopping_cart,
-                                    color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            const Text("Cart"),
+                            data['email'] == ''
+                                ? Container(width: 0)
+                                : const Text("Cart"),
                           ],
                         ),
                         Column(
                           children: [
-                            ClipOval(
-                              child: Container(
-                                color: Colors.teal,
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CustomerOrders(),
+                            data['email'] == ''
+                                ? Container(width: 0)
+                                : ClipOval(
+                                    child: Container(
+                                      color: Colors.teal,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CustomerOrders(),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.list_alt,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.list_alt,
-                                    color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            const Text("Orders"),
+                            data['email'] == ''
+                                ? Container(width: 0)
+                                : const Text("Orders"),
                           ],
                         ),
                         Column(
                           children: [
-                            ClipOval(
-                              child: Container(
-                                color: Colors.teal,
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const FavoritesScreen(),
+                            data['email'] == ''
+                                ? Container(width: 0)
+                                : ClipOval(
+                                    child: Container(
+                                      color: Colors.teal,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const FavoritesScreen(),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.favorite,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.favorite,
-                                    color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            const Text("Favorites"),
+                            data['email'] == ''
+                                ? Container(width: 0)
+                                : const Text("Favorites"),
                           ],
                         ),
                       ],
@@ -170,8 +187,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onTap: () {},
                             child: ListTile(
                               title: const Text("Email Address"),
-                              subtitle:
-                                  Text(data['email'].toString().toLowerCase()),
+                              subtitle: data['email'] == ''
+                                  ? const Text("Sign up to get full access")
+                                  : Text(
+                                      data['email'].toString().toLowerCase()),
                               leading: const Icon(Icons.email),
                             ),
                           ),
@@ -185,7 +204,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onTap: () {},
                             child: ListTile(
                               title: const Text("Phone Number"),
-                              subtitle: Text("+2${data['phoneNumber']}"),
+                              subtitle: data['phoneNumber'] == ''
+                                  ? const Text("Sign up to get full access")
+                                  : Text("+2${data['phoneNumber']}"),
                               leading: const Icon(Icons.phone),
                             ),
                           ),
@@ -199,105 +220,119 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onTap: () {},
                             child: ListTile(
                               title: const Text("Address"),
-                              subtitle: Text(data['address']),
+                              subtitle: data['address'] == ''
+                                  ? const Text("Sign up to get full access")
+                                  : Text(data['address']),
                               leading: const Icon(Icons.location_pin),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
-                          SizedBox(
-                            width: 60,
-                            height: 60,
-                            child: Divider(),
-                          ),
-                          Text(
-                            "Account Settings",
-                            style: TextStyle(fontSize: 32),
-                          ),
-                          SizedBox(
-                            width: 60,
-                            height: 60,
-                            child: Divider(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: const ListTile(
-                              title: Text("Edit Profile"),
-                              leading: Icon(Icons.edit),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: const ListTile(
-                              title: Text("Change Password"),
-                              leading: Icon(Icons.lock),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text(
-                                    "Warning",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                  content: const Text(
-                                      "Are you sure you want to logout?"),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () async {
-                                        await FirebaseAuth.instance.signOut();
-                                        Navigator.pop(context);
-                                        Navigator.pushReplacementNamed(
-                                            context, '/welcome_screen');
-                                        setState(() {});
-                                      },
-                                      child: const Text("Yes"),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("No"),
-                                    ),
-                                  ],
-                                ),
-                              );
+                    data['email'] == ''
+                        ? TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/customer_signup');
                             },
-                            child: const ListTile(
-                              title: Text("Logout"),
-                              leading: Icon(Icons.logout),
+                            child: const Text(
+                              "Create an account",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: const [
+                                SizedBox(
+                                  width: 60,
+                                  height: 60,
+                                  child: Divider(),
+                                ),
+                                Text(
+                                  "Account Settings",
+                                  style: TextStyle(fontSize: 32),
+                                ),
+                                SizedBox(
+                                  width: 60,
+                                  height: 60,
+                                  child: Divider(),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
+                    data['email'] == ''
+                        ? Container(width: 0)
+                        : Card(
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: const ListTile(
+                                    title: Text("Edit Profile"),
+                                    leading: Icon(Icons.edit),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 50),
+                                  child: Divider(
+                                    thickness: 1,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {},
+                                  child: const ListTile(
+                                    title: Text("Change Password"),
+                                    leading: Icon(Icons.lock),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 50),
+                                  child: Divider(
+                                    thickness: 1,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text(
+                                          "Warning",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        content: const Text(
+                                            "Are you sure you want to logout?"),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () async {
+                                              await FirebaseAuth.instance
+                                                  .signOut();
+                                              Navigator.pop(context);
+                                              Navigator.pushReplacementNamed(
+                                                  context, '/welcome_screen');
+                                            },
+                                            child: const Text("Yes"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("No"),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: const ListTile(
+                                    title: Text("Logout"),
+                                    leading: Icon(Icons.logout),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                   ],
                 ),
               ),

@@ -29,17 +29,21 @@ class _CartScreenState extends State<CartScreen> {
               "Your shopping cart is empty!",
               style: TextStyle(fontSize: 27),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.canPop(context)
-                    ? Navigator.pop(context)
-                    : Navigator.pushReplacementNamed(context, '/customer_home');
-              },
-              child: const Text(
-                "Tap to continue shopping",
-                style: TextStyle(fontSize: 24),
-              ),
-            )
+            const Text(
+              "Visit the shop to add some items.",
+              style: TextStyle(fontSize: 16),
+            ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.canPop(context)
+            //         ? Navigator.pop(context)
+            //         : Navigator.pushReplacementNamed(context, '/customer_home');
+            //   },
+            //   child: const Text(
+            //     "Tap to continue shopping",
+            //     style: TextStyle(fontSize: 24),
+            //   ),
+            // ),
           ],
         ),
       ),
