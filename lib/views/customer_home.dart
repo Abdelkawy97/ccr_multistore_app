@@ -13,7 +13,7 @@ class CustomerHomeView extends StatefulWidget {
 }
 
 class _CustomerHomeViewState extends State<CustomerHomeView> {
-  static int selectedIndex = 0;
+  static int _selectedIndex = 0;
   final List<Widget> _tabs = const [
     ProductsHomeScreen(),
     CategoriesScreen(),
@@ -24,10 +24,10 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _tabs[selectedIndex],
+      body: _tabs[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        currentIndex: selectedIndex,
+        currentIndex: _selectedIndex,
         selectedItemColor: Colors.teal,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.shifting,
@@ -42,7 +42,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
         ],
         onTap: (index) {
           setState(() {
-            selectedIndex = index;
+            _selectedIndex = index;
           });
         },
       ),

@@ -35,6 +35,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 );
               },
               icon: const Icon(Icons.search),
+              color: Colors.white,
             ),
           ],
           centerTitle: true,

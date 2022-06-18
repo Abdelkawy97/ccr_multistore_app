@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ccr_multistore_app/customer_screens/customer_orders.dart';
 import 'package:ccr_multistore_app/customer_screens/favorites_screen.dart';
 import 'package:ccr_multistore_app/screens/cart.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -205,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Card(
                 child: Column(
                   children: [
-                    GestureDetector(
+                    InkWell(
                       onTap: () {},
                       child: const ListTile(
                         title: Text("Edit Profile"),
@@ -218,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         thickness: 1,
                       ),
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {},
                       child: const ListTile(
                         title: Text("Change Password"),
@@ -231,8 +234,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         thickness: 1,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {},
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text(
+                              "Warning",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            content:
+                                const Text("Are you sure you want to logout?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  await FirebaseAuth.instance.signOut();
+                                  Navigator.pop(context);
+                                  Navigator.pushReplacementNamed(
+                                      context, '/welcome_screen');
+                                  setState(() {
+                                    
+                                  });
+                                },
+                                child: const Text("Yes"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("No"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                       child: const ListTile(
                         title: Text("Logout"),
                         leading: Icon(Icons.logout),
