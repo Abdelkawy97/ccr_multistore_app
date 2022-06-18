@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 // Package imports
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -6,9 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
-
-// Screen imports
-import 'package:ccr_multistore_app/screens/customer_login.dart';
 
 class CustomerSignUpScreen extends StatefulWidget {
   const CustomerSignUpScreen({Key? key}) : super(key: key);
@@ -26,7 +25,8 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
   bool _isLoading = false;
 
   // Authentication Parameters & functions
-  late String fullName;
+  late String firstName;
+  late String lastName;
   late String email;
   late String password;
   late String phoneNumber;
@@ -56,7 +56,8 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
 
             profileImageUrl = await ref.getDownloadURL();
             await customers.doc(_firebaseAuth.currentUser!.uid).set({
-              'fullName': fullName,
+              'firstName': firstName,
+              'lastName': lastName,
               'email': email,
               'profileImageUrl': profileImageUrl,
               'phoneNumber': phoneNumber,
@@ -153,7 +154,8 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   //Text Editing Controllers
-  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -165,7 +167,8 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
   @override
   void initState() {
     super.initState();
-    _fullNameController.addListener(() => setState(() {}));
+    _firstNameController.addListener(() => setState(() {}));
+    _lastNameController.addListener(() => setState(() {}));
     _emailController.addListener(() => setState(() {}));
     _passwordController.addListener(() => setState(() {}));
     _phoneNumberController.addListener(() => setState(() {}));
@@ -208,36 +211,77 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                             ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your name";
-                        } else {
-                          return null;
-                        }
-                      },
-                      onChanged: (value) {
-                        fullName = value;
-                      },
-                      controller: _fullNameController,
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.person),
-                        labelText: "Full Name",
-                        suffixIcon: _fullNameController.text.isEmpty
-                            ? Container(width: 0)
-                            : IconButton(
-                                onPressed: () => _fullNameController.clear(),
-                                icon: const Icon(Icons.close),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please enter first name";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              firstName = value;
+                            },
+                            controller: _firstNameController,
+                            keyboardType: TextInputType.name,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              labelText: "First Name",
+                              suffixIcon: _firstNameController.text.isEmpty
+                                  ? Container(width: 0)
+                                  : IconButton(
+                                      onPressed: () =>
+                                          _firstNameController.clear(),
+                                      icon: const Icon(Icons.close),
+                                    ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please enter your last name";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              lastName = value;
+                            },
+                            controller: _lastNameController,
+                            keyboardType: TextInputType.name,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              labelText: "Last Name",
+                              suffixIcon: _lastNameController.text.isEmpty
+                                  ? Container(width: 0)
+                                  : IconButton(
+                                      onPressed: () =>
+                                          _lastNameController.clear(),
+                                      icon: const Icon(Icons.close),
+                                    ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -256,7 +300,7 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.person),
+                        prefixIcon: const Icon(Icons.email),
                         labelText: "Email",
                         hintText: "example@domain.com",
                         suffixIcon: _emailController.text.isEmpty
@@ -310,7 +354,7 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                     child: TextFormField(
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Please enter your name";
+                          return "Please enter your phone number";
                         } else {
                           return null;
                         }
@@ -378,12 +422,8 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                       const Text("Already have an account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CustomerLogInScreen(),
-                            ),
-                          );
+                          Navigator.pushReplacementNamed(
+                              context, '/customer_login');
                         },
                         child: const Text(
                           "Sign In",

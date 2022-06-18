@@ -1,117 +1,215 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: use_build_context_synchronously
 
-class CustomerLogInScreen extends StatefulWidget {
-  const CustomerLogInScreen({Key? key}) : super(key: key);
+// Package imports
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:email_validator/email_validator.dart';
+
+class CustomerLoginScreen extends StatefulWidget {
+  const CustomerLoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<CustomerLogInScreen> createState() => _CustomerLogInScreenState();
+  State<CustomerLoginScreen> createState() => _CustomerLoginScreenState();
 }
 
-class _CustomerLogInScreenState extends State<CustomerLogInScreen> {
+class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
+  // Firebase Instances
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  // Loading boolean
+  bool _isLoading = false;
+
+  // Authentication Parameters & functions
+  late String email;
+  late String password;
+
+  void login() async {
+    setState(() {
+      _isLoading = true;
+    });
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _firebaseAuth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+
+        _formKey.currentState!.reset();
+        Navigator.pushReplacementNamed(context, '/customer_home');
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          setState(() {
+            _isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                "No account is associated with the provided email",
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        } else if (e.code == 'wrong-password') {
+          setState(() {
+            _isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                "Incorrect password",
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+      }
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Please fill all fields",
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+  }
+
+  // Validation Parameters
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  //Text Editing Controllers
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  // Conditions
+  bool _isPasswordInvisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(() => setState(() {}));
+    _passwordController.addListener(() => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hello Again!"),
+        title: const Text("Welcome Back!"),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/welcome_screen');
-            },
-            icon: const Icon(Icons.home),
-          ),
-        ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Form(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "Full Name",
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter your email address";
+                        } else if (!EmailValidator.validate(value)) {
+                          return "Please enter a valid email address";
+                        } else {
+                          return null;
+                        }
+                      },
+                      onChanged: (value) => email = value,
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.email),
+                        labelText: "Email",
+                        suffixIcon: _emailController.text.isEmpty
+                            ? Container(width: 0)
+                            : IconButton(
+                                onPressed: () => _emailController.clear(),
+                                icon: const Icon(Icons.close),
+                              ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "Email",
-                          hintText: "example@domain.com",
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: TextFormField(
+                      obscureText: _isPasswordInvisible,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter your password";
+                        }
+                      },
+                      onChanged: (value) => password = value,
+                      controller: _passwordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        labelText: "Password",
+                        suffixIcon: _passwordController.text.isEmpty
+                            ? Container(width: 0)
+                            : IconButton(
+                                onPressed: () => setState(() {
+                                  _isPasswordInvisible = !_isPasswordInvisible;
+                                }),
+                                icon: _isPasswordInvisible
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
+                              ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Password",
+                  _isLoading == true
+                      ? const CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: login,
+                          child: const Text("Sign In"),
                         ),
-                        obscureText: true,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Forgot your password?"),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Tap here",
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Sign In"),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Don't have an account?"),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Create an account here",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account?"),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, '/customer_signup');
+                        },
+                        child: const Text(
+                          "Sign Up",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -99,7 +99,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
-                                      context, '/customer_home');
+                                      context, '/customer_login');
                                 },
                                 child: const Text("Login"),
                               ),
