@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 
-class VendorLoginScreen extends StatefulWidget {
-  const VendorLoginScreen({Key? key}) : super(key: key);
+class CustomerLoginScreen extends StatefulWidget {
+  const CustomerLoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<VendorLoginScreen> createState() => _VendorLoginScreenState();
+  State<CustomerLoginScreen> createState() => _CustomerLoginScreenState();
 }
 
-class _VendorLoginScreenState extends State<VendorLoginScreen> {
+class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
   // Firebase Instances
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -35,7 +35,7 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
         );
 
         _formKey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/vendor_home');
+        Navigator.pushReplacementNamed(context, '/customer_home');
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -99,6 +99,12 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/welcome_screen');
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text("Welcome Back!"),
         centerTitle: true,
       ),
@@ -149,6 +155,8 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your password";
+                        } else {
+                          return null;
                         }
                       },
                       onChanged: (value) => password = value,
@@ -195,11 +203,11 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't have a business account?"),
+                      const Text("Don't have an account?"),
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/vendor_signup');
+                              context, '/customer_signup');
                         },
                         child: const Text(
                           "Sign Up",

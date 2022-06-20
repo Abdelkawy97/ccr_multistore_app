@@ -179,6 +179,12 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/welcome_screen');
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text("Create an account"),
         centerTitle: true,
       ),
@@ -323,6 +329,8 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter a password";
+                        } else {
+                          return null;
                         }
                       },
                       onChanged: (value) => password = value,

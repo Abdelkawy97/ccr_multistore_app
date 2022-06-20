@@ -1,16 +1,11 @@
-import 'package:ccr_multistore_app/screens/sub_category_products.dart';
+// Package imports
 import 'package:flutter/material.dart';
 
-List<String> _namesList = [
-  'Air Fresheners',
-  'Phone Holders',
-  'Car Covers',
-];
-List<String> _imageList = [
-  'assets/images/interior/0.jpg',
-  'assets/images/interior/1.jpg',
-  'assets/images/interior/2.jpg',
-];
+// Helper imports
+import 'package:ccr_multistore_app/helpers/categories.dart';
+
+// Screen imports
+import 'package:ccr_multistore_app/screens/sub_category_products.dart';
 
 class InteriorCategory extends StatelessWidget {
   const InteriorCategory({Key? key}) : super(key: key);
@@ -18,7 +13,7 @@ class InteriorCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: _imageList.length,
+      itemCount: interiorSubCategoriesImages.length,
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (context, i) {
@@ -28,7 +23,7 @@ class InteriorCategory extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => SubCategoryProductsScreen(
-                  subCategoryName: _namesList[i],
+                  subCategoryName: interiorSubCategories[i],
                 ),
               ),
             );
@@ -44,14 +39,14 @@ class InteriorCategory extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image(
-                        image: AssetImage(_imageList[i]),
+                        image: AssetImage(interiorSubCategoriesImages[i]),
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(_namesList[i]),
+                    child: Text(interiorSubCategories[i]),
                   ),
                 ],
               ),

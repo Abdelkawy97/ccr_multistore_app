@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:ccr_multistore_app/screens/customer_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -70,13 +69,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/vendor_login');
+                                  Navigator.pushReplacementNamed(
+                                      context, '/vendor_login');
                                 },
                                 child: const Text("Login"),
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(
+                                  Navigator.pushReplacementNamed(
                                       context, '/vendor_signup');
                                 },
                                 child: const Text("Sign Up"),
@@ -106,14 +106,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(
+                                  Navigator.pushReplacementNamed(
                                       context, '/customer_login');
                                 },
                                 child: const Text("Login"),
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(
+                                  Navigator.pushReplacementNamed(
                                       context, '/customer_signup');
                                 },
                                 child: const Text("Sign Up"),

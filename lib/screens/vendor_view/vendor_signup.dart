@@ -128,7 +128,6 @@ class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
   // Image Picker Parameters & Functions
   final ImagePicker _imagePicker = ImagePicker();
   XFile? _imageFile;
-  dynamic _pickedImageError;
 
   void _pickImage() async {
     try {
@@ -142,10 +141,7 @@ class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
         _imageFile = pickedImage;
       });
     } catch (e) {
-      setState(() {
-        _pickedImageError = e;
-      });
-      print(_pickedImageError);
+      print(e);
     }
   }
 
@@ -178,6 +174,12 @@ class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/welcome_screen');
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text("Create a business account"),
         centerTitle: true,
       ),
@@ -282,6 +284,8 @@ class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter a password";
+                        } else {
+                          return null;
                         }
                       },
                       onChanged: (value) => password = value,
@@ -314,6 +318,8 @@ class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your phone number";
+                        } else if (value.length < 11) {
+                          return "Please enter a valid phone number";
                         } else {
                           return null;
                         }
@@ -346,8 +352,6 @@ class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your address";
-                        } else if (value.length < 11) {
-                          return "Please enter a valid phone number";
                         } else {
                           return null;
                         }

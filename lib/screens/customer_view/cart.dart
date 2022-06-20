@@ -33,17 +33,15 @@ class _CartScreenState extends State<CartScreen> {
               "Visit the shop to add some items.",
               style: TextStyle(fontSize: 16),
             ),
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.canPop(context)
-            //         ? Navigator.pop(context)
-            //         : Navigator.pushReplacementNamed(context, '/customer_home');
-            //   },
-            //   child: const Text(
-            //     "Tap to continue shopping",
-            //     style: TextStyle(fontSize: 24),
-            //   ),
-            // ),
+            TextButton(
+              onPressed: () {
+                Navigator.popAndPushNamed(context, '/customer_home');
+              },
+              child: const Text(
+                "Tap to continue shopping",
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
           ],
         ),
       ),

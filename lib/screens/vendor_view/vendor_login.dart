@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 
-class CustomerLoginScreen extends StatefulWidget {
-  const CustomerLoginScreen({Key? key}) : super(key: key);
+class VendorLoginScreen extends StatefulWidget {
+  const VendorLoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<CustomerLoginScreen> createState() => _CustomerLoginScreenState();
+  State<VendorLoginScreen> createState() => _VendorLoginScreenState();
 }
 
-class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
+class _VendorLoginScreenState extends State<VendorLoginScreen> {
   // Firebase Instances
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -35,7 +35,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
         );
 
         _formKey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/customer_home');
+        Navigator.pushReplacementNamed(context, '/vendor_home');
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -99,6 +99,12 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/welcome_screen');
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text("Welcome Back!"),
         centerTitle: true,
       ),
@@ -149,6 +155,8 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your password";
+                        } else {
+                          return null;
                         }
                       },
                       onChanged: (value) => password = value,
@@ -195,11 +203,11 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't have an account?"),
+                      const Text("Don't have a business account?"),
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/customer_signup');
+                              context, '/vendor_signup');
                         },
                         child: const Text(
                           "Sign Up",

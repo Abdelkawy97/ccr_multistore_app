@@ -1,8 +1,8 @@
 import 'package:ccr_multistore_app/screens/categories.dart';
-import 'package:ccr_multistore_app/screens/dashboard.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/dashboard.dart';
 import 'package:ccr_multistore_app/screens/products_home.dart';
 import 'package:ccr_multistore_app/screens/stores.dart';
-import 'package:ccr_multistore_app/screens/upload.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/upload_product.dart';
 import 'package:flutter/material.dart';
 
 class VendorHomeView extends StatefulWidget {
@@ -19,7 +19,7 @@ class _VendorHomeViewState extends State<VendorHomeView> {
     CategoriesScreen(),
     StoresScreen(),
     DashboardScreen(),
-    UploadScreen(),
+    UploadProductScreen(),
   ];
   @override
   Widget build(BuildContext context) {

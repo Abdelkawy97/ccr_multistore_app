@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:ccr_multistore_app/dashboard_components/edit_business_profile.dart';
-import 'package:ccr_multistore_app/dashboard_components/manage_products.dart';
-import 'package:ccr_multistore_app/dashboard_components/my_store.dart';
-import 'package:ccr_multistore_app/dashboard_components/vendor_orders.dart';
-import 'package:ccr_multistore_app/dashboard_components/vendor_balance.dart';
-import 'package:ccr_multistore_app/dashboard_components/vendor_statistics.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/edit_business_profile.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/manage_products.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/my_store.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_orders.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_balance.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_statistics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

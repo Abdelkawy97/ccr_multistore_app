@@ -1,10 +1,13 @@
-import 'package:ccr_multistore_app/screens/cart.dart';
-import 'package:ccr_multistore_app/screens/categories.dart';
-import 'package:ccr_multistore_app/screens/products_home.dart';
-import 'package:ccr_multistore_app/screens/profile.dart';
-import 'package:ccr_multistore_app/screens/stores.dart';
+// Package imports
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+// Screen imports
+import 'package:ccr_multistore_app/screens/customer_view/cart.dart';
+import 'package:ccr_multistore_app/screens/categories.dart';
+import 'package:ccr_multistore_app/screens/products_home.dart';
+import 'package:ccr_multistore_app/screens/customer_view/profile.dart';
+import 'package:ccr_multistore_app/screens/stores.dart';
 
 class CustomerHomeView extends StatefulWidget {
   const CustomerHomeView({Key? key}) : super(key: key);
@@ -24,6 +27,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
   ];
   @override
   void initState() {
+    super.initState();
     setState(() {
       _selectedIndex = 0;
     });

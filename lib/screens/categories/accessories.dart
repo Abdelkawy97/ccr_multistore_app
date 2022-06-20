@@ -1,16 +1,11 @@
-import 'package:ccr_multistore_app/screens/sub_category_products.dart';
+// Package imports
 import 'package:flutter/material.dart';
 
-List<String> _namesList = [
-  'Air Fresheners',
-  'Phone Holders',
-  'Car Covers',
-];
-List<String> _imageList = [
-  'assets/images/accessories/0.jpg',
-  'assets/images/accessories/1.jpg',
-  'assets/images/accessories/2.jpg',
-];
+// Helper imports
+import 'package:ccr_multistore_app/helpers/categories.dart';
+
+// Screen imports
+import 'package:ccr_multistore_app/screens/sub_category_products.dart';
 
 class AccessoriesCategory extends StatelessWidget {
   const AccessoriesCategory({Key? key}) : super(key: key);
@@ -18,7 +13,7 @@ class AccessoriesCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        itemCount: _imageList.length,
+        itemCount: accessoriesSubCategoriesImages.length,
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (context, i) {
@@ -28,7 +23,7 @@ class AccessoriesCategory extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => SubCategoryProductsScreen(
-                    subCategoryName: _namesList[i],
+                    subCategoryName: accessoriesSubCategories[i],
                   ),
                 ),
               );
@@ -44,14 +39,14 @@ class AccessoriesCategory extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image(
-                          image: AssetImage(_imageList[i]),
+                          image: AssetImage(accessoriesSubCategoriesImages[i]),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(_namesList[i]),
+                      child: Text(accessoriesSubCategories[i]),
                     ),
                   ],
                 ),

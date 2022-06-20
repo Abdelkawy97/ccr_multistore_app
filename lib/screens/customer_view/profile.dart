@@ -1,11 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:ccr_multistore_app/customer_screens/customer_orders.dart';
-import 'package:ccr_multistore_app/customer_screens/favorites_screen.dart';
-import 'package:ccr_multistore_app/screens/cart.dart';
+// Package imports
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+
+// Screen imports
+import 'package:ccr_multistore_app/screens/customer_view/customer_orders.dart';
+import 'package:ccr_multistore_app/screens/customer_view/favorites_screen.dart';
+import 'package:ccr_multistore_app/screens/customer_view/cart.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String documentId;
@@ -35,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -230,14 +234,86 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     data['email'] == ''
-                        ? TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/customer_signup');
-                            },
-                            child: const Text(
-                              "Create an account",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                        ? Column(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, '/guest_customer_signup');
+                                },
+                                child: const Text(
+                                  "Create an account",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  SizedBox(
+                                    width: 100,
+                                    child: Divider(
+                                      thickness: 1.5,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 20),
+                                    child: Text("Already have an account?"),
+                                  ),
+                                  SizedBox(
+                                    width: 100,
+                                    child: Divider(
+                                      thickness: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, '/guest_customer_login');
+                                },
+                                child: const Text(
+                                  "Sign in",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  SizedBox(
+                                    width: 100,
+                                    child: Divider(
+                                      thickness: 1.5,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 20),
+                                    child: Text("OR"),
+                                  ),
+                                  SizedBox(
+                                    width: 100,
+                                    child: Divider(
+                                      thickness: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Go Back"),
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/welcome_screen');
+                                    },
+                                    icon: const Icon(Icons.logout),
+                                  ),
+                                ],
+                              ),
+                            ],
                           )
                         : Padding(
                             padding: const EdgeInsets.all(8),
@@ -339,7 +415,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           );
         }
-        return const Text("Loading");
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
