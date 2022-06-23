@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable, avoid_print
 
 // Package imports
 import 'package:flutter/material.dart';
@@ -8,19 +8,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // Screen imports
 import 'package:ccr_multistore_app/screens/customer_view/customer_orders.dart';
 import 'package:ccr_multistore_app/screens/customer_view/favorites_screen.dart';
-import 'package:ccr_multistore_app/screens/customer_view/cart.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String documentId;
-  const ProfileScreen({Key? key, required this.documentId}) : super(key: key);
+  String documentId;
+
+  ProfileScreen({Key? key, required this.documentId}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    // widget.documentId = FirebaseAuth.instance.currentUser!.uid;
+    print(widget.documentId);
+    super.initState();
+  }
+
   CollectionReference customers =
       FirebaseFirestore.instance.collection('customers');
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +37,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       future: customers.doc(widget.documentId).get(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text("Something went wrong");
+          return const Center(child: Text("Something went wrong"));
         }
         if (snapshot.hasData && !snapshot.data!.exists) {
-          return const Text("Document doesn't exist");
+          return const Center(child: Text("Document doesn't exist"));
         }
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
@@ -73,35 +82,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Column(
-                          children: [
-                            data['email'] == ''
-                                ? Container(width: 0)
-                                : ClipOval(
-                                    child: Container(
-                                      color: Colors.teal,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const CartScreen(),
-                                            ),
-                                          );
-                                        },
-                                        icon: const Icon(
-                                          Icons.shopping_cart,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            data['email'] == ''
-                                ? Container(width: 0)
-                                : const Text("Cart"),
-                          ],
-                        ),
                         Column(
                           children: [
                             data['email'] == ''
@@ -234,84 +214,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     data['email'] == ''
-                        ? Column(
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, '/guest_customer_signup');
+                              const Text(
+                                  "Made up your mind? Select what you want to do!"),
+                              IconButton(
+                                onPressed: () async {
+                                  await FirebaseAuth.instance.signOut();
+                                  Navigator.pushReplacementNamed(
+                                      context, '/welcome_screen');
                                 },
-                                child: const Text(
-                                  "Create an account",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  SizedBox(
-                                    width: 100,
-                                    child: Divider(
-                                      thickness: 1.5,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 20),
-                                    child: Text("Already have an account?"),
-                                  ),
-                                  SizedBox(
-                                    width: 100,
-                                    child: Divider(
-                                      thickness: 1.5,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, '/guest_customer_login');
-                                },
-                                child: const Text(
-                                  "Sign in",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  SizedBox(
-                                    width: 100,
-                                    child: Divider(
-                                      thickness: 1.5,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 20),
-                                    child: Text("OR"),
-                                  ),
-                                  SizedBox(
-                                    width: 100,
-                                    child: Divider(
-                                      thickness: 1.5,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text("Go Back"),
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, '/welcome_screen');
-                                    },
-                                    icon: const Icon(Icons.logout),
-                                  ),
-                                ],
+                                icon: const Icon(Icons.logout),
                               ),
                             ],
                           )

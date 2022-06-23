@@ -3,6 +3,7 @@
 // Package imports
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 
 class VendorLoginScreen extends StatefulWidget {
@@ -33,9 +34,28 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
           email: email,
           password: password,
         );
-
-        _formKey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/vendor_home');
+        FirebaseFirestore.instance
+            .collection('vendors')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get()
+            .then((documentSnapshot) {
+          if (documentSnapshot.exists) {
+            Navigator.pushReplacementNamed(context, '/vendor_home');
+            _formKey.currentState!.reset();
+          } else {
+            setState(() {
+              _isLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  "No business account is associated with the provided email",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
+        });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -99,12 +119,6 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/welcome_screen');
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
         title: const Text("Welcome Back!"),
         centerTitle: true,
       ),
@@ -125,9 +139,8 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
                           return "Please enter your email address";
                         } else if (!EmailValidator.validate(value)) {
                           return "Please enter a valid email address";
-                        } else {
-                          return null;
                         }
+                        return null;
                       },
                       onChanged: (value) => email = value,
                       controller: _emailController,
@@ -155,9 +168,8 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your password";
-                        } else {
-                          return null;
                         }
+                        return null;
                       },
                       onChanged: (value) => password = value,
                       controller: _passwordController,

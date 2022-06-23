@@ -69,14 +69,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/vendor_login');
+                                  Navigator.pushNamed(context, '/vendor_login');
                                 },
                                 child: const Text("Login"),
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
+                                  Navigator.pushNamed(
                                       context, '/vendor_signup');
                                 },
                                 child: const Text("Sign Up"),
@@ -106,14 +105,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
+                                  Navigator.pushNamed(
                                       context, '/customer_login');
                                 },
                                 child: const Text("Login"),
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
+                                  Navigator.pushNamed(
                                       context, '/customer_signup');
                                 },
                                 child: const Text("Sign Up"),

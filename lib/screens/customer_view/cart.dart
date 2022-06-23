@@ -12,6 +12,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text("Cart"),
         centerTitle: true,
         actions: [
@@ -24,23 +25,14 @@ class _CartScreenState extends State<CartScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
+          children: const [
+            Text(
               "Your shopping cart is empty!",
               style: TextStyle(fontSize: 27),
             ),
-            const Text(
+            Text(
               "Visit the shop to add some items.",
               style: TextStyle(fontSize: 16),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.popAndPushNamed(context, '/customer_home');
-              },
-              child: const Text(
-                "Tap to continue shopping",
-                style: TextStyle(fontSize: 24),
-              ),
             ),
           ],
         ),

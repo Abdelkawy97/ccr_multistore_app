@@ -3,6 +3,7 @@
 // Package imports
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 
 class CustomerLoginScreen extends StatefulWidget {
@@ -33,9 +34,28 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
           email: email,
           password: password,
         );
-
-        _formKey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/customer_home');
+        FirebaseFirestore.instance
+            .collection('customers')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get()
+            .then((documentSnapshot) {
+          if (documentSnapshot.exists) {
+            Navigator.pushReplacementNamed(context, '/customer_home');
+            _formKey.currentState!.reset();
+          } else {
+            setState(() {
+              _isLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  "No consumer account is associated with the provided email",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
+        });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -99,12 +119,6 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/welcome_screen');
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
         title: const Text("Welcome Back!"),
         centerTitle: true,
       ),

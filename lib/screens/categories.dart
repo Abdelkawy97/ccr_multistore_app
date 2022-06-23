@@ -20,6 +20,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       length: mainCategories.length,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text(
             "Categories",
             style: TextStyle(color: Colors.white),

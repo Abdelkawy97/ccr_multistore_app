@@ -179,12 +179,6 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/welcome_screen');
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
         title: const Text("Create an account"),
         centerTitle: true,
       ),
@@ -339,7 +333,7 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
                         labelText: "Password",
-                        hintText: "Enter 7 characters at least",
+                        hintText: "Enter 6 characters at least",
                         suffixIcon: _passwordController.text.isEmpty
                             ? Container(width: 0)
                             : IconButton(

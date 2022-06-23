@@ -43,6 +43,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text("Dashboard"),
         centerTitle: true,
         actions: [
@@ -88,31 +89,35 @@ class DashboardScreen extends StatelessWidget {
           crossAxisSpacing: 50,
           crossAxisCount: 2,
           children: List.generate(
-            6,
+            _dashboardScreens.length,
             (index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => _dashboardScreens[index],
-                    ),
-                  );
-                },
+              return Material(
                 child: Card(
                   elevation: 5,
-                  // shadowColor: Colors.grey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        _icons[index],
-                        size: 50,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => _dashboardScreens[index],
+                        ),
+                      );
+                    },
+                    child: Ink(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            _icons[index],
+                            size: 50,
+                          ),
+                          Text(
+                            _labels[index],
+                          ),
+                        ],
                       ),
-                      Text(
-                        _labels[index],
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               );

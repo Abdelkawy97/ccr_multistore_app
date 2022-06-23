@@ -174,12 +174,6 @@ class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/welcome_screen');
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
         title: const Text("Create a business account"),
         centerTitle: true,
       ),
@@ -294,7 +288,7 @@ class _VendorSignUpScreenState extends State<VendorSignUpScreen> {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
                         labelText: "Password",
-                        hintText: "Enter 7 characters at least",
+                        hintText: "Enter 6 characters at least",
                         suffixIcon: _passwordController.text.isEmpty
                             ? Container(width: 0)
                             : IconButton(

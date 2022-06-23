@@ -53,7 +53,7 @@ List<String> electronicsSubCategoriesImages = [
 List<String> interiorSubCategories = [
   'Arm Rests',
   'Car Tableau Pads',
-  'Children Car Seats',
+  'Children\'s Car Seats',
   'Seat Belts',
   'Seat Covers',
 ];

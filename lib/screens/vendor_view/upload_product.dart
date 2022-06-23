@@ -145,6 +145,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text("Upload New Product"),
         centerTitle: true,
       ),
