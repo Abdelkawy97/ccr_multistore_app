@@ -1,12 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable, avoid_print
 
 // Package imports
+import 'package:ccr_multistore_app/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Screen imports
 import 'package:ccr_multistore_app/screens/customer_view/customer_orders.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   String documentId;
@@ -255,9 +257,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             onPressed: () async {
                                               await FirebaseAuth.instance
                                                   .signOut();
+                                              context.read<Cart>().clearCart();
                                               Navigator.pop(context);
                                               Navigator.pushReplacementNamed(
-                                                  context, '/welcome_screen');
+                                                context,
+                                                '/welcome_screen',
+                                              );
                                             },
                                             child: const Text("Yes"),
                                           ),

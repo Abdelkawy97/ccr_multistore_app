@@ -195,7 +195,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                         item.quantity *
                                                             item.price,
                                                     'deliveryStatus':
-                                                        'Preparing',
+                                                        'preparing',
                                                     'deliveryDate': '',
                                                     'orderDate': DateTime.now(),
                                                     'paymentStatus':

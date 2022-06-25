@@ -6,7 +6,6 @@ import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/edit
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/manage_products.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/my_store.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_orders.dart';
-import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_balance.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_statistics.dart';
 
 List<String> _labels = [
@@ -14,7 +13,6 @@ List<String> _labels = [
   'Orders',
   'Edit Business Profile',
   'Manage Products',
-  'Balance',
   'Statistics',
 ];
 
@@ -23,7 +21,6 @@ List<IconData> _icons = [
   Icons.list_alt,
   Icons.edit,
   Icons.settings,
-  Icons.attach_money,
   Icons.show_chart
 ];
 
@@ -32,7 +29,6 @@ List<Widget> _dashboardScreens = [
   const VendorOrders(),
   const EditBusinessProfile(),
   const ManageProducts(),
-  const BalanceScreen(),
   const VendorStatisticsScreen(),
 ];
 

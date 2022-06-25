@@ -70,14 +70,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             setState(() {
                               cartCount++;
                             });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  "Item added to cart!",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(
+                            //     content: Text(
+                            //       "Item added to cart!",
+                            //       textAlign: TextAlign.center,
+                            //     ),
+                            //   ),
+                            // );
                           },
                           icon: context.watch<Cart>().getItems.isEmpty
                               ? const Icon(Icons.shopping_cart)

@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class CustomerOrders extends StatelessWidget {
   const CustomerOrders({Key? key}) : super(key: key);
@@ -65,10 +66,11 @@ class CustomerOrders extends StatelessWidget {
                         ),
                       ],
                     ),
-                    subtitle: const Text("Delivery status:"),
+                    // subtitle: const Text("Delivery status:"),
                     children: [
                       Container(
-                        height: 180,
+                        width: double.infinity,
+                        height: 250,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -90,8 +92,35 @@ class CustomerOrders extends StatelessWidget {
                                 "Payment Method: ${order['paymentStatus']} ",
                               ),
                               Text(
-                                "Delivery Status: ${order['deliveryStatus']}",
+                                "Estimated delivery date: ${DateFormat('dd-MM-yyy').format(order['deliveryDate'].toDate()).toString()}",
                               ),
+                              Text(
+                                "Order Status: ${order['deliveryStatus']}",
+                              ),
+                              order['deliveryStatus'] == 'shipping'
+                                  ? Text(
+                                      "Delivery Status: ${order['deliveryStatus']}",
+                                    )
+                                  : const Text(""),
+                              order['deliveryStatus'] == 'delivered' &&
+                                      order['orderReview'] == false
+                                  ? TextButton(
+                                      onPressed: () {},
+                                      child: const Text("Leave a review"),
+                                    )
+                                  : const Text(""),
+                              order['deliveryStatus'] == 'delivered' &&
+                                      order['orderReview'] == true
+                                  ? Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.check,
+                                          color: Colors.teal,
+                                        ),
+                                        Text("Review Added"),
+                                      ],
+                                    )
+                                  : const Text(""),
                             ],
                           ),
                         ),

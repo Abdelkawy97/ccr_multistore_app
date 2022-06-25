@@ -21,10 +21,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text(
-            "Categories",
-            style: TextStyle(color: Colors.white),
-          ),
+          title: const Text("Categories"),
+          foregroundColor: Colors.white,
           backgroundColor: Theme.of(context).primaryColor,
           actions: [
             IconButton(

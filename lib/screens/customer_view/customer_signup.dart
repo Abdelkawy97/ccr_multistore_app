@@ -218,6 +218,7 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           child: TextFormField(
+                            autofocus: true,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Please enter first name";
