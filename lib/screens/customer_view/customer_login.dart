@@ -201,18 +201,6 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
                           onPressed: login,
                           child: const Text("Sign In"),
                         ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Forgot your password?"),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "Tap here",
-                        ),
-                      ),
-                    ],
-                  ),
                   const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

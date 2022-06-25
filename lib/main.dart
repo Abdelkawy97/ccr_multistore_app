@@ -1,6 +1,9 @@
 // Package imports
+import 'package:ccr_multistore_app/models/cart.dart';
+import 'package:ccr_multistore_app/models/favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 // Screen imports
 import 'package:ccr_multistore_app/screens/customer_view/customer_login.dart';
@@ -38,24 +41,30 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Car Care & Repair",
-      // themeMode: currentTheme.currentTheme,
-      themeMode: ThemeMode.system,
-      theme: CustomTheme.lightTheme,
-      darkTheme: CustomTheme.darkTheme,
-      debugShowCheckedModeBanner: false,
-      // home: const CustomerSignUpScreen(),
-      initialRoute: '/welcome_screen',
-      routes: {
-        '/welcome_screen': (context) => const WelcomeScreen(),
-        '/customer_home': (context) => const CustomerHomeView(),
-        '/customer_signup': (context) => const CustomerSignUpScreen(),
-        '/customer_login': (context) => const CustomerLoginScreen(),
-        '/vendor_home': (context) => const VendorHomeView(),
-        '/vendor_signup': (context) => const VendorSignUpScreen(),
-        '/vendor_login': (context) => const VendorLoginScreen(),
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (_) => Favorite())
+      ],
+      child: MaterialApp(
+        title: "Car Care & Repair",
+        // themeMode: currentTheme.currentTheme,
+        themeMode: ThemeMode.system,
+        theme: CustomTheme.lightTheme,
+        darkTheme: CustomTheme.darkTheme,
+        debugShowCheckedModeBanner: false,
+        // home: const CustomerSignUpScreen(),
+        initialRoute: '/welcome_screen',
+        routes: {
+          '/welcome_screen': (context) => const WelcomeScreen(),
+          '/customer_home': (context) => const CustomerHomeView(),
+          '/customer_signup': (context) => const CustomerSignUpScreen(),
+          '/customer_login': (context) => const CustomerLoginScreen(),
+          '/vendor_home': (context) => const VendorHomeView(),
+          '/vendor_signup': (context) => const VendorSignUpScreen(),
+          '/vendor_login': (context) => const VendorLoginScreen(),
+        },
+      ),
     );
   }
 }

@@ -15,10 +15,10 @@ List<String> accessoriesSubCategories = [
 ];
 List<String> accessoriesSubCategoriesImages = [
   'assets/images/accessories/0.jpg',
-  'assets/images/accessories/0.jpg',
   'assets/images/accessories/1.jpg',
   'assets/images/accessories/2.jpg',
-  'assets/images/accessories/2.jpg',
+  'assets/images/accessories/3.jpg',
+  'assets/images/accessories/4.jpg',
 ];
 
 // Body Components
@@ -32,7 +32,7 @@ List<String> bodyComponentsSubcategoriesImages = [
   'assets/images/body_components/0.jpg',
   'assets/images/body_components/1.jpg',
   'assets/images/body_components/2.jpg',
-  'assets/images/body_components/0.jpg',
+  'assets/images/body_components/3.jpg',
 ];
 
 // Electronics
@@ -46,7 +46,7 @@ List<String> electronicsSubCategoriesImages = [
   'assets/images/electronics/0.jpg',
   'assets/images/electronics/1.jpg',
   'assets/images/electronics/2.jpg',
-  'assets/images/electronics/0.jpg',
+  'assets/images/electronics/3.jpg',
 ];
 
 // Interior
@@ -61,6 +61,6 @@ List<String> interiorSubCategoriesImages = [
   'assets/images/interior/0.jpg',
   'assets/images/interior/1.jpg',
   'assets/images/interior/2.jpg',
-  'assets/images/interior/0.jpg',
-  'assets/images/interior/0.jpg',
+  'assets/images/interior/3.jpg',
+  'assets/images/interior/4.jpg',
 ];

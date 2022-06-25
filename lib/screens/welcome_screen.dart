@@ -18,115 +18,106 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   bool processing = false;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Center(
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/welcome_screen/0.jpg'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          constraints: const BoxConstraints.expand(),
-          child: processing == true
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                  children: [
-                    Card(
-                      color: Colors.transparent,
-                      child: Column(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Text(
-                              "Car Care & Repair",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                              ),
+        appBar: AppBar(),
+        body: processing == true
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  Card(
+                    elevation: 5,
+                    // color: Colors.transparent,
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            "Car Care & Repair",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 32,
+                              // color: Colors.white,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const Divider(
-                            color: Colors.white,
+                        ),
+                        const Divider(
+                          // color: Colors.white,
+                          thickness: 2,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            "Vendor Account",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 24,
+                              // color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/vendor_login');
+                              },
+                              child: const Text("Login"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/vendor_signup');
+                              },
+                              child: const Text("Sign Up"),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 150,
+                          child: Divider(
+                            // color: Colors.white,
                             thickness: 2,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Text(
-                              "Vendor Specific Functions",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                              ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            "Customer Account",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 24,
+                              // color: Colors.white,
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/vendor_login');
-                                },
-                                child: const Text("Login"),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, '/vendor_signup');
-                                },
-                                child: const Text("Sign Up"),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 150,
-                            child: Divider(
-                              color: Colors.white,
-                              thickness: 2,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/customer_login');
+                              },
+                              child: const Text("Login"),
                             ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Text(
-                              "Customer Specific Functions",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                              ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, '/customer_signup');
+                              },
+                              child: const Text("Sign Up"),
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, '/customer_login');
-                                },
-                                child: const Text("Login"),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, '/customer_signup');
-                                },
-                                child: const Text("Sign Up"),
-                              ),
-                            ],
-                          ),
-                          const Divider(
-                            color: Colors.white,
-                            thickness: 2,
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                      ],
                     ),
-                    ElevatedButton(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
                       onPressed: () async {
                         setState(() {
                           processing = true;
@@ -150,10 +141,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             context, '/customer_home');
                       },
                       child: const Text("Continue as a Guest"),
-                    )
-                  ],
-                ),
-        ),
+                    ),
+                  )
+                ],
+              ),
       ),
     );
   }

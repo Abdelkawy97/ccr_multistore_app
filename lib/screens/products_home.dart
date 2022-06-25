@@ -1,12 +1,10 @@
 // Package imports
-import 'package:ccr_multistore_app/helpers/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Screen imports
 import 'package:ccr_multistore_app/screens/product_details.dart';
 import 'package:ccr_multistore_app/screens/search.dart';
-import 'package:ccr_multistore_app/screens/settings.dart';
 
 class ProductsHomeScreen extends StatefulWidget {
   const ProductsHomeScreen({Key? key}) : super(key: key);
@@ -22,26 +20,8 @@ class _ProductsHomeScreenState extends State<ProductsHomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: Drawer(
-          child: Column(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text("Settings"),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingsScreen(),
-                    ),
-                  );
-                  // currentTheme.toggleTheme();
-                },
-              ),
-            ],
-          ),
-        ),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text("Home"),
           centerTitle: true,
           actions: [
@@ -102,10 +82,10 @@ class _ProductsHomeScreenState extends State<ProductsHomeScreen> {
                                 productDescription: snapshot.data!.docs[i]
                                     ['productDescription'],
                                 productPrice: snapshot.data!.docs[i]['price'],
-                                productQuantity: snapshot.data!.docs[i]
-                                    ['inStock'],
+                                productStock: snapshot.data!.docs[i]['inStock'],
                                 productImageUrl: snapshot.data!.docs[i]
                                     ['productImageUrl'],
+                                vid: snapshot.data!.docs[i]['vid'],
                               ),
                             ),
                           );
@@ -114,16 +94,6 @@ class _ProductsHomeScreenState extends State<ProductsHomeScreen> {
                         child: Ink(
                           child: Column(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.favorite_border),
-                                    color: Colors.purple,
-                                  )
-                                ],
-                              ),
                               Expanded(
                                 child: Container(
                                   padding: const EdgeInsets.all(12),

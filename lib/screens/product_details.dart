@@ -1,7 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:badges/badges.dart';
+import 'package:ccr_multistore_app/models/cart.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final String productId;
   final String mainCategoryName;
   final String subCategoryName;
@@ -9,46 +12,97 @@ class ProductDetailsScreen extends StatelessWidget {
   final String productDescription;
   final String productImageUrl;
   final double productPrice;
-  final int productQuantity;
+  final int productStock;
+  final String vid;
 
-  const ProductDetailsScreen({
-    Key? key,
-    required this.mainCategoryName,
-    required this.subCategoryName,
-    required this.productTitle,
-    required this.productDescription,
-    required this.productPrice,
-    required this.productQuantity,
-    required this.productImageUrl,
-    required this.productId,
-  }) : super(key: key);
+  const ProductDetailsScreen(
+      {Key? key,
+      required this.mainCategoryName,
+      required this.subCategoryName,
+      required this.productTitle,
+      required this.productDescription,
+      required this.productPrice,
+      required this.productStock,
+      required this.productImageUrl,
+      required this.productId,
+      required this.vid})
+      : super(key: key);
 
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  int cartCount = 0;
+  int favCount = 0;
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> productsStream = FirebaseFirestore.instance
         .collection('products')
-        .where('subCategory', isEqualTo: subCategoryName)
-        .where('productId', isNotEqualTo: productId)
+        .where('subCategory', isEqualTo: widget.subCategoryName)
+        .where('productId', isNotEqualTo: widget.productId)
         .snapshots();
 
     return Material(
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text(productTitle),
+            title: Text(widget.productTitle),
             centerTitle: true,
           ),
           bottomSheet: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.store),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.shopping_cart),
-              ),
+              cartCount < 1
+                  ? widget.productStock == 0
+                      ? const SizedBox(width: 0)
+                      : IconButton(
+                          onPressed: () {
+                            context.read<Cart>().addItem(
+                                  title: widget.productTitle,
+                                  price: widget.productPrice,
+                                  quantity: 1,
+                                  inStock: widget.productStock,
+                                  imageUrl: widget.productImageUrl,
+                                  documentId: widget.productId,
+                                  vid: widget.vid,
+                                );
+                            setState(() {
+                              cartCount++;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Item added to cart!",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          },
+                          icon: context.watch<Cart>().getItems.isEmpty
+                              ? const Icon(Icons.shopping_cart)
+                              : Badge(
+                                  badgeContent: Text(
+                                    context
+                                        .watch<Cart>()
+                                        .getItems
+                                        .length
+                                        .toString(),
+                                  ),
+                                  badgeColor: Colors.teal,
+                                  child: const Icon(Icons.add_shopping_cart),
+                                ),
+                        )
+                  : IconButton(
+                      onPressed: () {},
+                      icon: Badge(
+                        badgeContent: Text(
+                          context.watch<Cart>().getItems.length.toString(),
+                        ),
+                        badgeColor: Colors.teal,
+                        child: const Icon(Icons.add_shopping_cart),
+                      ),
+                    )
             ],
           ),
           body: SingleChildScrollView(
@@ -57,7 +111,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 Card(
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.45,
-                    child: Image.network(productImageUrl),
+                    child: Image.network(widget.productImageUrl),
                   ),
                 ),
                 const Divider(),
@@ -67,24 +121,27 @@ class ProductDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "EGP ${productPrice.toStringAsFixed(2)}",
+                        "EGP ${widget.productPrice.toStringAsFixed(2)}",
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.favorite_border),
-                      color: Colors.purple,
-                    )
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      "Items left in stock: ${productQuantity.toString()}"),
-                ),
+                widget.productStock == 0
+                    ? const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "This item is currently of stock",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            "Items left in stock: ${widget.productStock.toString()}"),
+                      ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: const [
@@ -107,7 +164,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(productDescription),
+                    child: Text(widget.productDescription),
                   ),
                 ),
                 Row(
@@ -183,7 +240,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                                   .docs[i]['mainCategory'],
                                               productId: snapshot.data?.docs[i]
                                                   ['productId'],
-                                              subCategoryName: subCategoryName,
+                                              subCategoryName:
+                                                  widget.subCategoryName,
                                               productTitle: snapshot.data
                                                   ?.docs[i]['productTitle'],
                                               productDescription:
@@ -191,10 +249,12 @@ class ProductDetailsScreen extends StatelessWidget {
                                                       ['productDescription'],
                                               productPrice: snapshot
                                                   .data?.docs[i]['price'],
-                                              productQuantity: snapshot
+                                              productStock: snapshot
                                                   .data?.docs[i]['inStock'],
                                               productImageUrl: snapshot.data
                                                   ?.docs[i]['productImageUrl'],
+                                              vid: snapshot.data?.docs[i]
+                                                  ['vid'],
                                             ),
                                           ),
                                         );
@@ -203,18 +263,6 @@ class ProductDetailsScreen extends StatelessWidget {
                                       child: Ink(
                                         child: Column(
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {},
-                                                  icon: const Icon(
-                                                      Icons.favorite_border),
-                                                  color: Colors.purple,
-                                                )
-                                              ],
-                                            ),
                                             Expanded(
                                               child: Container(
                                                 padding:
@@ -258,20 +306,13 @@ class ProductDetailsScreen extends StatelessWidget {
                                 );
                               });
                         }
-
-                        // if (!snapshot.hasData) {
-                        //   return Center(
-                        //     child: Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: const [
-                        //         CircularProgressIndicator(),
-                        //         Text("Loading Data..."),
-                        //       ],
-                        //     ),
-                        //   );
-                        // }
+                        if (!snapshot.hasData) {
+                          return const Center(
+                              child: Text("No recommendations avaiable"));
+                        }
                         return const Center(
-                            child: Text("No recommendations avaiable"));
+                          child: CircularProgressIndicator(),
+                        );
                       },
                     ),
                   ),

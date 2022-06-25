@@ -70,10 +70,11 @@ class _SubCategoryProductsScreenState extends State<SubCategoryProductsScreen> {
                                         ['productDescription'],
                                     productPrice: snapshot.data!.docs[i]
                                         ['price'],
-                                    productQuantity: snapshot.data!.docs[i]
+                                    productStock: snapshot.data!.docs[i]
                                         ['inStock'],
                                     productImageUrl: snapshot.data!.docs[i]
                                         ['productImageUrl'],
+                                    vid: snapshot.data?.docs[i]['vid'],
                                   )),
                         );
                       },
@@ -81,16 +82,6 @@ class _SubCategoryProductsScreenState extends State<SubCategoryProductsScreen> {
                       child: Ink(
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.favorite_border),
-                                  color: Colors.purple,
-                                )
-                              ],
-                            ),
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.all(12),

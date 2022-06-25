@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Screen imports
 import 'package:ccr_multistore_app/screens/customer_view/customer_orders.dart';
-import 'package:ccr_multistore_app/screens/customer_view/favorites_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   String documentId;
@@ -80,68 +79,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            data['email'] == ''
-                                ? Container(width: 0)
-                                : ClipOval(
-                                    child: Container(
-                                      color: Colors.teal,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const CustomerOrders(),
-                                            ),
-                                          );
-                                        },
-                                        icon: const Icon(
-                                          Icons.list_alt,
-                                          color: Colors.white,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              data['email'] == ''
+                                  ? Container(width: 0)
+                                  : ClipOval(
+                                      child: Container(
+                                        color: Colors.teal,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const CustomerOrders(),
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.list_alt,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                            data['email'] == ''
-                                ? Container(width: 0)
-                                : const Text("Orders"),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            data['email'] == ''
-                                ? Container(width: 0)
-                                : ClipOval(
-                                    child: Container(
-                                      color: Colors.teal,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const FavoritesScreen(),
-                                            ),
-                                          );
-                                        },
-                                        icon: const Icon(
-                                          Icons.favorite,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            data['email'] == ''
-                                ? Container(width: 0)
-                                : const Text("Favorites"),
-                          ],
-                        ),
-                      ],
-                    ),
+                              data['email'] == ''
+                                  ? Container(width: 0)
+                                  : const Text("Orders"),
+                            ],
+                          ),
+                        ]),
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: Row(
@@ -261,19 +230,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: const ListTile(
                                     title: Text("Edit Profile"),
                                     leading: Icon(Icons.edit),
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 50),
-                                  child: Divider(
-                                    thickness: 1,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: const ListTile(
-                                    title: Text("Change Password"),
-                                    leading: Icon(Icons.lock),
                                   ),
                                 ),
                                 const Padding(
