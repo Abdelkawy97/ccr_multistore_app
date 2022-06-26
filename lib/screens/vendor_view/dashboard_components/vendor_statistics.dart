@@ -45,7 +45,7 @@ class VendorStatisticsScreen extends StatelessWidget {
                     value: snapshot.data!.docs.length,
                   ),
                   StatisticsColumn(
-                    label: "Products Count",
+                    label: "Products Sold",
                     value: itemCount,
                   ),
                   StatisticsColumn(

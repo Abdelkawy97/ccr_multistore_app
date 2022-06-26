@@ -1,4 +1,5 @@
 import 'package:ccr_multistore_app/screens/product_details.dart';
+import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/edit_business_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _StoreScreenState extends State<StoreScreen> {
         }
         if (snapshot.hasData && !snapshot.data!.exists) {
           return const Scaffold(
-              body: Center(child: Text("Something went wrong")));
+              body: Center(child: Text("Document doesn't exist")));
         }
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
@@ -51,10 +52,48 @@ class _StoreScreenState extends State<StoreScreen> {
               actions: [
                 data['vid'] == FirebaseAuth.instance.currentUser!.uid
                     ? IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  EditBusinessProfile(data: data),
+                            ),
+                          );
+                        },
                         icon: const Icon(Icons.edit),
                       )
-                    : Container(width: 0)
+                    : Container(width: 0),
+                IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text(
+                          "Store Details",
+                          textAlign: TextAlign.center,
+                        ),
+                        // content: const Center(child: Text("Store Details")),
+                        actions: [
+                          Column(
+                            children: [
+                              Text("Store Name: ${data['storeName']}"),
+                              Text("Phone Number: +2${data['phoneNumber']}"),
+                              Text("Address: ${data['address']}"),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Confirm"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.info_outline),
+                )
               ],
             ),
             body: StreamBuilder<QuerySnapshot>(

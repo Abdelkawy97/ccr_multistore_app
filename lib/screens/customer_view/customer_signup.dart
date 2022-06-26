@@ -63,6 +63,7 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
               'phoneNumber': phoneNumber,
               'address': address,
               'cid': _uid,
+              'hasCart': true,
             });
 
             _formKey.currentState!.reset();

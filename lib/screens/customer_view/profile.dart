@@ -5,10 +5,10 @@ import 'package:ccr_multistore_app/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 // Screen imports
 import 'package:ccr_multistore_app/screens/customer_view/customer_orders.dart';
-import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   String documentId;
@@ -38,10 +38,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       future: customers.doc(widget.documentId).get(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Center(child: Text("Something went wrong"));
+          return const Material(
+              child: Center(child: Text("Something went wrong")));
         }
         if (snapshot.hasData && !snapshot.data!.exists) {
-          return const Center(child: Text("Document doesn't exist"));
+          return const Material(
+              child: Center(child: Text("Document doesn't exist")));
         }
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =

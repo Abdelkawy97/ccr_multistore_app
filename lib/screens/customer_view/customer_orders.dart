@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 
-class CustomerOrders extends StatelessWidget {
+class CustomerOrders extends StatefulWidget {
   const CustomerOrders({Key? key}) : super(key: key);
 
+  @override
+  State<CustomerOrders> createState() => _CustomerOrdersState();
+}
+
+class _CustomerOrdersState extends State<CustomerOrders> {
+  late double rating;
+  late String comment;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +83,7 @@ class CustomerOrders extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 20, right: 150),
+                          padding: const EdgeInsets.only(top: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -91,9 +99,12 @@ class CustomerOrders extends StatelessWidget {
                               Text(
                                 "Payment Method: ${order['paymentStatus']} ",
                               ),
-                              Text(
-                                "Estimated delivery date: ${DateFormat('dd-MM-yyy').format(order['deliveryDate'].toDate()).toString()}",
-                              ),
+                              order['deliveryDate'] == ''
+                                  ? const Text(
+                                      "Estimated delivery date: Pending vendor")
+                                  : Text(
+                                      "Estimated delivery date: ${DateFormat('dd-MM-yyy').format(order['deliveryDate'].toDate()).toString()}",
+                                    ),
                               Text(
                                 "Order Status: ${order['deliveryStatus']}",
                               ),
@@ -105,8 +116,140 @@ class CustomerOrders extends StatelessWidget {
                               order['deliveryStatus'] == 'delivered' &&
                                       order['orderReview'] == false
                                   ? TextButton(
-                                      onPressed: () {},
-                                      child: const Text("Leave a review"),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => Material(
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  RatingBar.builder(
+                                                    allowHalfRating: true,
+                                                    initialRating: 1,
+                                                    minRating: 1,
+                                                    maxRating: 5,
+                                                    onRatingUpdate: (value) {
+                                                      rating = value;
+                                                    },
+                                                    itemBuilder: (context, i) {
+                                                      return const Icon(
+                                                        Icons.star,
+                                                        color: Colors.amber,
+                                                      );
+                                                    },
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: TextField(
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintText:
+                                                            "Leave a comment",
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                        ),
+                                                      ),
+                                                      onChanged: (value) {
+                                                        comment = value;
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      ElevatedButton(
+                                                        onPressed: () async {
+                                                          CollectionReference
+                                                              collectionReference =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'products')
+                                                                  .doc(order[
+                                                                      'productId'])
+                                                                  .collection(
+                                                                      'reviews');
+
+                                                          await collectionReference
+                                                              .doc(FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .uid)
+                                                              .set({
+                                                            'customerFirstName':
+                                                                order[
+                                                                    'customerFirstName'],
+                                                            'customerLastName':
+                                                                order[
+                                                                    'customerLastName'],
+                                                            'rating': rating,
+                                                            'comment': comment,
+                                                            'profileImageUrl':
+                                                                order[
+                                                                    'profileImageUrl'],
+                                                          })
+                                                          .whenComplete(
+                                                                  () async {
+                                                            await FirebaseFirestore
+                                                                .instance
+                                                                .runTransaction(
+                                                                    (transaction) async {
+                                                              DocumentReference
+                                                                  docRef =
+                                                                  FirebaseFirestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'orders')
+                                                                      .doc(order[
+                                                                          'orderId']);
+
+                                                              transaction
+                                                                  .update(
+                                                                      docRef, {
+                                                                'orderReview':
+                                                                    true,
+                                                              });
+                                                            });
+                                                          });
+                                                          await Future.delayed(
+                                                                  const Duration(
+                                                                      microseconds:
+                                                                          100))
+                                                              .whenComplete(() =>
+                                                                  Navigator.pop(
+                                                                      context));
+                                                        },
+                                                        child: const Text(
+                                                            "Confirm"),
+                                                      ),
+                                                      const SizedBox(width: 30),
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                            "Cancel"),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child:
+                                          const Text("Leave rating and review"),
                                     )
                                   : const Text(""),
                               order['deliveryStatus'] == 'delivered' &&

@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:ccr_multistore_app/models/cart.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -33,16 +34,20 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  late final Stream<QuerySnapshot> reviewsStream = FirebaseFirestore.instance
+      .collection('products')
+      .doc(widget.productId)
+      .collection('reviews')
+      .snapshots();
+  late final Stream<QuerySnapshot> productsStream = FirebaseFirestore.instance
+      .collection('products')
+      .where('subCategory', isEqualTo: widget.subCategoryName)
+      .where('productId', isNotEqualTo: widget.productId)
+      .snapshots();
   int cartCount = 0;
   int favCount = 0;
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> productsStream = FirebaseFirestore.instance
-        .collection('products')
-        .where('subCategory', isEqualTo: widget.subCategoryName)
-        .where('productId', isNotEqualTo: widget.productId)
-        .snapshots();
-
     return Material(
       child: SafeArea(
         child: Scaffold(
@@ -167,6 +172,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Text(widget.productDescription),
                   ),
                 ),
+                Reviews(reviewsStream),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: const [
@@ -324,4 +330,67 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
     );
   }
+}
+
+Widget Reviews(var reviewsStream) {
+  return ExpandablePanel(
+      header: const Padding(
+        padding: EdgeInsets.all(8),
+        child: Text(
+          "Reviews",
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+      collapsed: const Text(""),
+      expanded: ReviewsAll(reviewsStream));
+}
+
+Widget ReviewsAll(var reviewsStream) {
+  return StreamBuilder<QuerySnapshot>(
+      stream: reviewsStream,
+      builder: (context, snapshot2) {
+        if (snapshot2.hasError) {
+          return const Center(child: Text("Something went wrong"));
+        }
+        if (snapshot2.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot2.data!.docs.isEmpty) {
+          return const Center(child: Text("This product has no reviews yet"));
+        }
+        return ListView.builder(
+            itemCount: snapshot2.data!.docs.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: ((context, i) {
+              return Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        snapshot2.data!.docs[i]['profileImageUrl']),
+                  ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(snapshot2.data!.docs[i]['customerFirstName'] +
+                          " " +
+                          snapshot2.data!.docs[i]['customerLastName']),
+                      Row(
+                        children: [
+                          Text(
+                            snapshot2.data!.docs[i]['rating'].toString(),
+                          ),
+                          const Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  subtitle: Text(snapshot2.data!.docs[i]['comment']),
+                ),
+              );
+            }));
+      });
 }

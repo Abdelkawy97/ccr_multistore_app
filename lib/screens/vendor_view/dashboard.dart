@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:ccr_multistore_app/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/edit_business_profile.dart';
@@ -7,6 +8,7 @@ import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/mana
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/my_store.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_orders.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_statistics.dart';
+import 'package:provider/provider.dart';
 
 List<String> _labels = [
   'My Store',
@@ -27,7 +29,7 @@ List<IconData> _icons = [
 List<Widget> _dashboardScreens = [
   const MyStore(),
   const VendorOrders(),
-  const EditBusinessProfile(),
+  // const EditBusinessProfile(),
   const ManageProducts(),
   const VendorStatisticsScreen(),
 ];
@@ -61,6 +63,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.pop(context);
                         Navigator.pushReplacementNamed(
                             context, '/welcome_screen');
+                        context.read<Cart>().clearCart();
                       },
                       child: const Text("Yes"),
                     ),

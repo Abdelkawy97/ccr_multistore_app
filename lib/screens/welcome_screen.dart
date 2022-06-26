@@ -115,34 +115,34 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        setState(() {
-                          processing = true;
-                        });
-                        await FirebaseAuth.instance
-                            .signInAnonymously()
-                            .whenComplete(() async {
-                          _uid = FirebaseAuth.instance.currentUser!.uid;
-                          await customers.doc(_uid).set({
-                            'firstName': '',
-                            'lastName': '',
-                            'email': '',
-                            'profileImageUrl': '',
-                            'phoneNumber': '',
-                            'address': '',
-                            'cid': _uid,
-                          });
-                        });
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: ElevatedButton(
+                  //     onPressed: () async {
+                  //       setState(() {
+                  //         processing = true;
+                  //       });
+                  //       await FirebaseAuth.instance
+                  //           .signInAnonymously()
+                  //           .whenComplete(() async {
+                  //         _uid = FirebaseAuth.instance.currentUser!.uid;
+                  //         await customers.doc(_uid).set({
+                  //           'firstName': '',
+                  //           'lastName': '',
+                  //           'email': '',
+                  //           'profileImageUrl': '',
+                  //           'phoneNumber': '',
+                  //           'address': '',
+                  //           'cid': _uid,
+                  //         });
+                  //       });
 
-                        Navigator.pushReplacementNamed(
-                            context, '/customer_home');
-                      },
-                      child: const Text("Continue as a Guest"),
-                    ),
-                  )
+                  //       Navigator.pushReplacementNamed(
+                  //           context, '/customer_home');
+                  //     },
+                  //     child: const Text("Continue as a Guest"),
+                  //   ),
+                  // ),
                 ],
               ),
       ),
