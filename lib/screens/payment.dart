@@ -130,7 +130,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             selectedValue = value!;
                                           });
                                         },
-                                        title: const Text("Cash on delivery"),
+                                        title: const Text(
+                                            "Credit Card / Debit Card"),
                                         subtitle: const Text(
                                           "Pay using a Credit Card",
                                         ),

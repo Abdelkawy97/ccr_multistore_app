@@ -30,9 +30,14 @@ class _EditBusinessProfileState extends State<EditBusinessProfile> {
   late String address;
   late String storeImageUrl;
 
+  bool isLoading = false;
+
   void saveChanges() async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
+      setState(() {
+        isLoading = true;
+      });
       editStoreData();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -88,7 +93,21 @@ class _EditBusinessProfileState extends State<EditBusinessProfile> {
         'phoneNumber': phoneNumber,
         'address': address,
       });
-    }).whenComplete(() => Navigator.pop(context));
+    }).whenComplete(
+      () {
+        setState(() {
+          isLoading = false;
+        });
+        return ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "Changes saved",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -234,37 +253,39 @@ class _EditBusinessProfileState extends State<EditBusinessProfile> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.red),
-                    ),
-                    child: const Icon(
-                      Icons.cancel_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      saveChanges();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green),
-                    ),
-                    child: const Icon(
-                      Icons.check_circle_outline_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              )
+              isLoading
+                  ? const CircularProgressIndicator()
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.red),
+                          ),
+                          child: const Icon(
+                            Icons.cancel_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            saveChanges();
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.green),
+                          ),
+                          child: const Icon(
+                            Icons.check_circle_outline_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    )
             ],
           ),
         ),

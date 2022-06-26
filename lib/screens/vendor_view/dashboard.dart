@@ -3,8 +3,6 @@
 import 'package:ccr_multistore_app/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/edit_business_profile.dart';
-import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/manage_products.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/my_store.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_orders.dart';
 import 'package:ccr_multistore_app/screens/vendor_view/dashboard_components/vendor_statistics.dart';
@@ -13,24 +11,18 @@ import 'package:provider/provider.dart';
 List<String> _labels = [
   'My Store',
   'Orders',
-  'Edit Business Profile',
-  'Manage Products',
   'Statistics',
 ];
 
 List<IconData> _icons = [
   Icons.store,
   Icons.list_alt,
-  Icons.edit,
-  Icons.settings,
-  Icons.show_chart
+  Icons.show_chart,
 ];
 
 List<Widget> _dashboardScreens = [
   const MyStore(),
   const VendorOrders(),
-  // const EditBusinessProfile(),
-  const ManageProducts(),
   const VendorStatisticsScreen(),
 ];
 

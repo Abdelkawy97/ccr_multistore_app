@@ -194,133 +194,123 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 SizedBox(
                   height: 440,
-                  child: Card(
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: productsStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return const Center(
-                              child: Text('Something went wrong'));
-                        }
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: productsStream,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                            child: Text('Something went wrong'));
+                      }
 
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: Text("No Recommendations to display"));
-                        }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                            child: Text("No Recommendations to display"));
+                      }
 
-                        if (snapshot.hasData) {
-                          return GridView.builder(
-                              padding: const EdgeInsets.all(10),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 0.5,
-                              ),
-                              itemCount: snapshot.data?.docs.length,
-                              itemBuilder: (context, i) {
-                                return Material(
-                                  child: Container(
-                                    margin: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.teal.withOpacity(0.2),
-                                        width: 3,
-                                      ),
-                                      borderRadius: BorderRadius.circular(15),
+                      if (snapshot.hasData) {
+                        return GridView.builder(
+                            padding: const EdgeInsets.all(10),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.5,
+                            ),
+                            itemCount: snapshot.data?.docs.length,
+                            itemBuilder: (context, i) {
+                              return Material(
+                                child: Container(
+                                  margin: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.teal.withOpacity(0.2),
+                                      width: 3,
                                     ),
-                                    child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProductDetailsScreen(
-                                              mainCategoryName: snapshot.data!
-                                                  .docs[i]['mainCategory'],
-                                              productId: snapshot.data?.docs[i]
-                                                  ['productId'],
-                                              subCategoryName:
-                                                  widget.subCategoryName,
-                                              productTitle: snapshot.data
-                                                  ?.docs[i]['productTitle'],
-                                              productDescription:
-                                                  snapshot.data!.docs[i]
-                                                      ['productDescription'],
-                                              productPrice: snapshot
-                                                  .data?.docs[i]['price'],
-                                              productStock: snapshot
-                                                  .data?.docs[i]['inStock'],
-                                              productImageUrl: snapshot.data
-                                                  ?.docs[i]['productImageUrl'],
-                                              vid: snapshot.data?.docs[i]
-                                                  ['vid'],
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductDetailsScreen(
+                                            mainCategoryName: snapshot
+                                                .data!.docs[i]['mainCategory'],
+                                            productId: snapshot.data?.docs[i]
+                                                ['productId'],
+                                            subCategoryName:
+                                                widget.subCategoryName,
+                                            productTitle: snapshot.data?.docs[i]
+                                                ['productTitle'],
+                                            productDescription: snapshot.data!
+                                                .docs[i]['productDescription'],
+                                            productPrice: snapshot.data?.docs[i]
+                                                ['price'],
+                                            productStock: snapshot.data?.docs[i]
+                                                ['inStock'],
+                                            productImageUrl: snapshot.data
+                                                ?.docs[i]['productImageUrl'],
+                                            vid: snapshot.data?.docs[i]['vid'],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Ink(
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              padding: const EdgeInsets.all(12),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: Image.network(
+                                                snapshot.data?.docs[i]
+                                                    ['productImageUrl'],
+                                                fit: BoxFit.scaleDown,
+                                              ),
                                             ),
                                           ),
-                                        );
-                                      },
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Ink(
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(12),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                ),
-                                                child: Image.network(
-                                                  snapshot.data?.docs[i]
-                                                      ['productImageUrl'],
-                                                  fit: BoxFit.scaleDown,
-                                                ),
-                                              ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            child: Text(
+                                              snapshot.data?.docs[i]
+                                                  ['productTitle'],
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8),
-                                              child: Text(
-                                                snapshot.data?.docs[i]
-                                                    ['productTitle'],
-                                              ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            child: Text(
+                                              "EGP ${snapshot.data?.docs[i]['price'].toStringAsFixed(2)}",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8),
-                                              child: Text(
-                                                "EGP ${snapshot.data?.docs[i]['price'].toStringAsFixed(2)}",
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                );
-                              });
-                        }
-                        if (!snapshot.hasData) {
-                          return const Center(
-                              child: Text("No recommendations avaiable"));
-                        }
+                                ),
+                              );
+                            });
+                      }
+                      if (!snapshot.hasData) {
                         return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
+                            child: Text("No recommendations avaiable"));
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                 ),
               ],
